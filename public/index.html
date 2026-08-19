@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>文道材料下载器</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="mark">文</div>
+          <div>
+            <h1>文道材料下载器</h1>
+            <p>关键词批量下载 · 自动压缩</p>
+          </div>
+        </div>
+
+        <div class="top-actions">
+          <div id="loginPill" class="login-pill">
+            <span class="status-dot"></span>
+            <span id="loginText">检查登录状态</span>
+          </div>
+          <button id="loginButton" class="button light" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 8V5a1 1 0 0 1 1-1h3M20 8V5a1 1 0 0 0-1-1h-3M4 16v3a1 1 0 0 0 1 1h3M20 16v3a1 1 0 0 1-1 1h-3M3 12h18" />
+            </svg>
+            <span>扫码登录</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <aside class="configurator">
+          <form id="jobForm">
+            <section class="form-section">
+              <label class="field-label" for="keyword">关键词</label>
+              <input id="keyword" required autocomplete="off" placeholder="公路 / 交通 / 水运 / 隐患" />
+            </section>
+
+            <section class="form-section preview-section">
+              <div class="section-head">
+                <span class="field-label">数量预检</span>
+                <button id="previewButton" class="button ghost" type="button">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="m20 20-4.2-4.2" />
+                  </svg>
+                  <span>搜索数量</span>
+                </button>
+              </div>
+              <div id="previewBox" class="preview-box">尚未搜索</div>
+            </section>
+
+            <section class="form-section">
+              <div class="section-head">
+                <span class="field-label">下载范围</span>
+              </div>
+              <div class="segmented" id="limitMode">
+                <label>
+                  <input type="radio" name="limitMode" id="allResults" value="all" checked />
+                  <span>全部结果</span>
+                </label>
+                <label>
+                  <input type="radio" name="limitMode" id="limitedResults" value="limited" />
+                  <span>限制数量</span>
+                </label>
+              </div>
+              <div id="limitField" class="limit-field" hidden>
+                <label class="field-label" for="limit">最多下载</label>
+                <input id="limit" type="number" min="1" step="1" value="100" inputmode="numeric" />
+              </div>
+            </section>
+
+            <section class="form-section">
+              <div class="section-head">
+                <span class="field-label">文件类型</span>
+              </div>
+              <div class="types" id="types">
+                <label><input type="checkbox" value="word" checked /><span>Word</span></label>
+                <label><input type="checkbox" value="excel" checked /><span>Excel</span></label>
+                <label><input type="checkbox" value="ppt" checked /><span>PPT</span></label>
+                <label><input type="checkbox" value="pdf" checked /><span>PDF</span></label>
+                <label><input type="checkbox" value="video" checked /><span>视频</span></label>
+                <label><input type="checkbox" value="other" checked /><span>其他</span></label>
+              </div>
+            </section>
+
+            <details class="advanced">
+              <summary>高级选项</summary>
+              <div class="advanced-body">
+                <div class="advanced-grid">
+                  <div>
+                    <label class="field-label" for="concurrency">并发任务</label>
+                    <input id="concurrency" type="range" min="1" max="4" value="2" />
+                    <div class="range-caption">
+                      <span>1</span><span id="concurrencyText">2</span><span>4</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="field-label" for="delayMs">间隔 ms</label>
+                    <input id="delayMs" type="number" min="0" max="5000" step="50" value="350" />
+                  </div>
+                </div>
+
+                <label class="field-label" for="outputDirectory">保存位置</label>
+                <input id="outputDirectory" autocomplete="off" placeholder="默认：软件数据目录下的 downloads" />
+
+                <label class="check-row">
+                  <input id="createZip" type="checkbox" checked />
+                  <span>下载完成后生成压缩包</span>
+                </label>
+              </div>
+            </details>
+
+            <div class="actions">
+              <button id="startButton" class="button primary" type="submit">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 4v10m0 0 4-4m-4 4-4-4M5 19h14" />
+                </svg>
+                <span>全部下载</span>
+              </button>
+              <button id="cancelButton" class="button danger" type="button" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="7" y="7" width="10" height="10" rx="2" />
+                </svg>
+                <span>停止</span>
+              </button>
+            </div>
+          </form>
+        </aside>
+
+        <section class="monitor">
+          <div class="card progress-card">
+            <div class="progress-head">
+              <div>
+                <span id="phaseText">待启动</span>
+                <strong id="percentText">0%</strong>
+              </div>
+              <div class="metrics">
+                <span id="countText">0 / 0</span>
+                <span id="bytesText">0 B / 0 B</span>
+              </div>
+            </div>
+            <div class="track"><div id="progressBar"></div></div>
+            <div class="current">
+              <span>当前文件</span>
+              <div class="track small"><div id="currentBar"></div></div>
+              <strong id="currentPercent">0%</strong>
+            </div>
+          </div>
+
+          <div class="grid">
+            <section class="card">
+              <div class="card-head">
+                <h2>结果</h2>
+                <button id="openResult" class="button ghost" disabled>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M4 7h5l2 2h9v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7Z" />
+                  </svg>
+                  <span>打开结果</span>
+                </button>
+              </div>
+              <div id="resultBox" class="result">等待任务</div>
+            </section>
+
+            <section class="card">
+              <div class="card-head">
+                <h2>日志</h2>
+                <span id="failedText">0 失败</span>
+              </div>
+              <div id="logs" class="logs"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="/app.js"></script>
+  </body>
+</html>

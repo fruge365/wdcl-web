@@ -1,0 +1,9 @@
+node_modules/
+browser-profile/
+downloads/
+dist/
+runtime/
+*.zip
+*.log
+.DS_Store
+Thumbs.db

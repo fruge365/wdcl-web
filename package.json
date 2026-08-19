@@ -1,0 +1,10 @@
+{
+  "name": "wdcl-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "文道材料批量下载工具",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" },
+  "dependencies": { "playwright-core": "^1.44.0" }
+}
