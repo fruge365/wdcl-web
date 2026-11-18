@@ -1,6 +1,12 @@
-# 文道材料批量下载工具
+# 📥 文道材料批量下载工具 · wdcl-web
+
+[![Node](https://img.shields.io/badge/Node.js-18%2B-339933?style=flat-square&logo=node.js)](https://nodejs.org/)
+[![Windows](https://img.shields.io/badge/平台-Windows%2010%2F11-0078D6?style=flat-square&logo=windows)](#运行环境)
+[![Edge](https://img.shields.io/badge/依赖-Microsoft%20Edge-0078D4?style=flat-square&logo=microsoftedge)](#运行环境)
 
 一个简单的 Node + HTML 工具：登录后输入关键词，先看结果数量，再批量下载文件并自动打包成 ZIP。
+
+> ⚠️ **需要本地运行**：核心的登录、搜索、下载依赖 Node 服务与浏览器环境，无法通过 GitHub Pages 在线使用。
 
 ## 功能
 
